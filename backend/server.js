@@ -91,26 +91,26 @@ app.use('/api/resume',        require('./routes/resume'));
 app.use('/api/profile',       require('./routes/profile'));
 app.use('/api/companies',     require('./routes/companies'));
 
-// ── File Upload Endpoint ──────────────────────────────────────────────────────
+// ── File Upload Endpoint ──────────────────────────────────────────────────
 const { protect } = require('./middleware/auth');
-const { uploadResume, uploadAvatar } = require('./middleware/upload');
+const { uploadResume, uploadAvatar, processCloudinaryUpload } = require('./middleware/upload');
 const User = require('./models/User');
 const fs = require('fs');
 
-// Ensure upload dir exists
+// Ensure upload dir exists (for local fallback)
 const uploadsDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
-app.post('/api/upload/resume', protect, uploadResume, async (req, res) => {
+app.post('/api/upload/resume', protect, uploadResume, processCloudinaryUpload('resumes'), async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
-  const url = `/uploads/${req.file.filename}`;
+  const url = req.cloudinaryUrl || `/uploads/${req.file.filename}`;
   await User.findByIdAndUpdate(req.user._id, { resumeUrl: url });
   res.json({ success: true, url });
 });
 
-app.post('/api/upload/avatar', protect, uploadAvatar, async (req, res) => {
+app.post('/api/upload/avatar', protect, uploadAvatar, processCloudinaryUpload('avatars'), async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
-  const url = `/uploads/${req.file.filename}`;
+  const url = req.cloudinaryUrl || `/uploads/${req.file.filename}`;
   await User.findByIdAndUpdate(req.user._id, { avatarUrl: url });
   res.json({ success: true, url });
 });

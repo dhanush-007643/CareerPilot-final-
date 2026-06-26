@@ -1,7 +1,13 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CareerPilot — Backend Deployment + Service
+# ═══════════════════════════════════════════════════════════════════════════
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cp-backend
+  namespace: careerpilot
+  labels:
+    app: cp-backend
 spec:
   replicas: 2
   selector:
@@ -17,22 +23,76 @@ spec:
           image: dhaanush19/careerpilot-backend:latest
           ports:
             - containerPort: 5000
+          # Non-sensitive config from ConfigMap
+          envFrom:
+            - configMapRef:
+                name: cp-config
+          # Sensitive credentials from Secret
           env:
-            - name: PORT
-              value: "5000"
             - name: MONGO_URI
-              value: "mongodb://mongo:27017/careerpilot"
-            # In a real environment, you should use k8s secrets for sensitive data
-            # - name: JWT_SECRET
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: app-secrets
-            #       key: jwt-secret
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: MONGO_URI
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: JWT_SECRET
+            - name: EMAIL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: EMAIL_USER
+            - name: EMAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: EMAIL_PASS
+            - name: CLOUDINARY_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: CLOUDINARY_NAME
+            - name: CLOUDINARY_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: CLOUDINARY_KEY
+            - name: CLOUDINARY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cp-secrets
+                  key: CLOUDINARY_SECRET
+          # Resource limits
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          # Health probes
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 30
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: cp-backend
+  namespace: careerpilot
+  labels:
+    app: cp-backend
 spec:
   selector:
     app: cp-backend

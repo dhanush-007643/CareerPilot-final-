@@ -1,7 +1,13 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CareerPilot — Frontend Deployment + Service
+# ═══════════════════════════════════════════════════════════════════════════
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cp-frontend
+  namespace: careerpilot
+  labels:
+    app: cp-frontend
 spec:
   replicas: 2
   selector:
@@ -17,11 +23,35 @@ spec:
           image: dhaanush19/careerpilot-frontend:latest
           ports:
             - containerPort: 80
+          # Resource limits
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          # Health probe
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: cp-frontend
+  namespace: careerpilot
+  labels:
+    app: cp-frontend
 spec:
   type: LoadBalancer
   selector:

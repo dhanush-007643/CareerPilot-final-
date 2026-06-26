@@ -1,7 +1,11 @@
 const multer = require('multer');
 const path   = require('path');
+const { isCloudinaryConfigured, uploadToCloudinary } = require('../config/cloudinary');
 
-// Storage config
+// ═══════════════════════════════════════════════════════════════════════════
+// Local Disk Storage (development / fallback)
+// ═══════════════════════════════════════════════════════════════════════════
+
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, path.join(__dirname, '..', 'public', 'uploads'));
@@ -22,17 +26,53 @@ const fileFilter = (req, file, cb) => {
   else cb(new Error('Only images, PDFs, and documents are allowed'), false);
 };
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Auto-select storage: Cloudinary (memory) when configured, else disk
+// ═══════════════════════════════════════════════════════════════════════════
+
+const activeStorage = isCloudinaryConfigured()
+  ? multer.memoryStorage()
+  : storage;
+
 const upload = multer({
-  storage,
+  storage: activeStorage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
   fileFilter,
 });
 
-// Preset middlewares — disk storage (local uploads)
+// Preset middlewares
 exports.uploadResume   = upload.single('resume');
 exports.uploadAvatar   = upload.single('avatar');
 exports.uploadLogo     = upload.single('logo');
 exports.uploadMultiple = upload.array('files', 5);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Cloudinary Upload Middleware
+// Attaches `req.cloudinaryUrl` after uploading the file buffer
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * After multer processes the file into memory, upload it to Cloudinary.
+ * Falls back to local URL if Cloudinary is not configured.
+ */
+exports.processCloudinaryUpload = (folder) => async (req, res, next) => {
+  if (!req.file) return next();
+
+  if (isCloudinaryConfigured() && req.file.buffer) {
+    try {
+      const result = await uploadToCloudinary(req.file.buffer, folder);
+      req.cloudinaryUrl = result.url;
+      req.cloudinaryPublicId = result.publicId;
+    } catch (err) {
+      console.error('❌ Cloudinary upload error:', err.message);
+      return res.status(500).json({ success: false, message: 'File upload failed' });
+    }
+  } else {
+    // Local disk — return relative URL
+    req.cloudinaryUrl = `/uploads/${req.file.filename}`;
+  }
+  next();
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PDF-Only Memory Storage — used for S3 uploads (buffer stays in memory)
@@ -49,7 +89,7 @@ const pdfFilter = (req, file, cb) => {
   cb(null, true);
 };
 
-// Memory storage — keeps file in buffer for direct S3 upload (no temp file)
+// Memory storage — keeps file in buffer for direct S3/Cloudinary upload (no temp file)
 const memoryUpload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max

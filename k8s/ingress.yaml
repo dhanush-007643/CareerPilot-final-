@@ -1,0 +1,50 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CareerPilot — Ingress (Nginx Ingress Controller)
+# ═══════════════════════════════════════════════════════════════════════════
+# Routes:
+#   /api/*  → cp-backend service (port 5000)
+#   /*      → cp-frontend service (port 80)
+#
+# Prerequisite (Minikube):
+#   minikube addons enable ingress
+# ═══════════════════════════════════════════════════════════════════════════
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cp-ingress
+  namespace: careerpilot
+  labels:
+    app: careerpilot
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: careerpilot.local
+      http:
+        paths:
+          # Backend API routes
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: cp-backend
+                port:
+                  number: 5000
+          # Socket.io WebSocket route
+          - path: /socket.io
+            pathType: Prefix
+            backend:
+              service:
+                name: cp-backend
+                port:
+                  number: 5000
+          # Frontend (catch-all)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cp-frontend
+                port:
+                  number: 80

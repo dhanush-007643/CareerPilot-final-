@@ -29,3 +29,15 @@ Thumbs.db
 *.ntvs*
 *.njsproj
 *.sln
+
+# ── Vercel ────────────────────────────────────────────────────
+.vercel/
+
+# ── Docker ────────────────────────────────────────────────────
+*.pem
+docker-compose.override.yml
+
+# ── Kubernetes secrets (never commit real secrets) ────────────
+# k8s/secret.yaml is a TEMPLATE with placeholder values — safe to commit
+# If you create a k8s/secret-real.yaml with actual values, it's ignored:
+k8s/secret-real.yaml

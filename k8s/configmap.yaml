@@ -1,0 +1,16 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CareerPilot — ConfigMap (Non-Sensitive Configuration)
+# ═══════════════════════════════════════════════════════════════════════════
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cp-config
+  namespace: careerpilot
+  labels:
+    app: careerpilot
+data:
+  PORT: "5000"
+  NODE_ENV: "production"
+  CLIENT_URL: "https://careerpilot.vercel.app"
+  SERVER_URL: "https://careerpilot-api.onrender.com"
+  JWT_EXPIRE: "30d"
