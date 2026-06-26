@@ -1,5 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// Resume Model — Stores S3 URL + metadata for each user's resume
+// Resume Model — Stores resume URL + metadata for each user's resume
+// Supports both Cloudinary and S3 storage backends
 // ═══════════════════════════════════════════════════════════════════════════
 
 const mongoose = require('mongoose');
@@ -20,16 +21,24 @@ const resumeSchema = new mongoose.Schema({
     trim: true,
   },
 
-  // S3 object key (path inside the bucket)
+  // S3 object key (path inside the bucket) — used when S3 is the backend
   s3Key: {
     type: String,
-    required: true,
   },
 
-  // Full S3 URL for reference
+  // Full S3 URL for reference — used when S3 is the backend
   s3Url: {
     type: String,
-    required: true,
+  },
+
+  // Cloudinary secure URL — used when Cloudinary is the backend
+  cloudinaryUrl: {
+    type: String,
+  },
+
+  // Cloudinary public ID — used for deletion
+  cloudinaryPublicId: {
+    type: String,
   },
 
   // File size in bytes

@@ -1,17 +1,28 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // Resume Controller — Handles HTTP request/response for resume operations
-// Delegates S3 work to resumeService for clean separation
+// Uses Cloudinary as primary storage, falls back to S3 if configured
 // ═══════════════════════════════════════════════════════════════════════════
 
 const Resume = require('../models/Resume');
 const User   = require('../models/User');
-const { uploadToS3, deleteFromS3, getPresignedDownloadUrl } = require('../services/resumeService');
 const calculateCompletion = require('../utils/profileCompletion');
+const { isCloudinaryConfigured, uploadToCloudinary, deleteFromCloudinary } = require('../config/cloudinary');
+
+// Conditionally load S3 service (only if AWS is configured)
+let s3Service = null;
+try {
+  s3Service = require('../services/resumeService');
+} catch (e) {
+  console.log('ℹ️  S3 service not available, using Cloudinary for resumes');
+}
+
+const isS3Configured = () =>
+  !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_S3_BUCKET &&
+     process.env.AWS_ACCESS_KEY_ID !== 'your_aws_access_key_id');
 
 // ── POST /api/resume/upload ───────────────────────────────────────────────
-// Upload a PDF resume to S3 and save metadata to MongoDB
+// Upload a PDF resume to Cloudinary (or S3 fallback) and save metadata
 exports.uploadResume = async (req, res) => {
-  // Multer middleware already validated file type and size
   if (!req.file) {
     return res.status(400).json({
       success: false,
@@ -20,13 +31,29 @@ exports.uploadResume = async (req, res) => {
   }
 
   try {
-    // 1. Upload file buffer to S3
-    const { s3Key, s3Url } = await uploadToS3(req.file, req.user._id.toString());
+    let resumeUrl, resumeData;
 
-    // 2. Upsert resume record — replaces existing resume if user re-uploads
-    const resume = await Resume.findOneAndUpdate(
-      { userId: req.user._id },
-      {
+    // ── Strategy 1: Cloudinary (primary) ──────────────────────────────
+    if (isCloudinaryConfigured()) {
+      const result = await uploadToCloudinary(req.file.buffer, 'resumes', 'raw');
+      resumeUrl = result.url;
+      resumeData = {
+        userId:            req.user._id,
+        originalName:      req.file.originalname,
+        cloudinaryUrl:     result.url,
+        cloudinaryPublicId: result.publicId,
+        s3Key:             '',
+        s3Url:             '',
+        fileSize:          req.file.size,
+        mimeType:          req.file.mimetype,
+        uploadedAt:        new Date(),
+      };
+    }
+    // ── Strategy 2: AWS S3 (fallback) ─────────────────────────────────
+    else if (isS3Configured() && s3Service) {
+      const { s3Key, s3Url } = await s3Service.uploadToS3(req.file, req.user._id.toString());
+      resumeUrl = s3Url;
+      resumeData = {
         userId:       req.user._id,
         originalName: req.file.originalname,
         s3Key,
@@ -34,17 +61,30 @@ exports.uploadResume = async (req, res) => {
         fileSize:     req.file.size,
         mimeType:     req.file.mimetype,
         uploadedAt:   new Date(),
-      },
+      };
+    }
+    // ── No storage configured ─────────────────────────────────────────
+    else {
+      return res.status(500).json({
+        success: false,
+        message: 'File storage is not configured. Please set up Cloudinary or AWS S3.',
+      });
+    }
+
+    // Upsert resume record
+    const resume = await Resume.findOneAndUpdate(
+      { userId: req.user._id },
+      resumeData,
       { upsert: true, new: true, runValidators: true }
     );
 
-    // 3. Update the user's resumeUrl field and recalculate profile completion
+    // Update user's resumeUrl and profile completion
     const user = await User.findById(req.user._id);
-    user.resumeUrl = s3Url;
+    user.resumeUrl = resumeUrl;
     user.profileCompletion = calculateCompletion(user);
     await user.save();
 
-    console.log(`📄 Resume uploaded: ${req.file.originalname} → ${s3Key}`);
+    console.log(`📄 Resume uploaded: ${req.file.originalname}`);
 
     res.status(201).json({
       success: true,
@@ -64,7 +104,6 @@ exports.uploadResume = async (req, res) => {
 };
 
 // ── GET /api/resume/:userId ───────────────────────────────────────────────
-// Fetch resume metadata for a specific user
 exports.getResume = async (req, res) => {
   const resume = await Resume.findOne({ userId: req.params.userId });
 
@@ -79,9 +118,7 @@ exports.getResume = async (req, res) => {
 };
 
 // ── DELETE /api/resume/:userId ────────────────────────────────────────────
-// Remove resume from both S3 and MongoDB
 exports.deleteResume = async (req, res) => {
-  // Only allow users to delete their own resume
   if (req.params.userId !== req.user._id.toString()) {
     return res.status(403).json({
       success: false,
@@ -99,26 +136,28 @@ exports.deleteResume = async (req, res) => {
   }
 
   try {
-    // 1. Delete from S3
-    await deleteFromS3(resume.s3Key);
+    // Delete from storage
+    if (resume.cloudinaryPublicId) {
+      await deleteFromCloudinary(resume.cloudinaryPublicId, 'raw');
+    } else if (resume.s3Key && isS3Configured() && s3Service) {
+      await s3Service.deleteFromS3(resume.s3Key);
+    }
 
-    // 2. Delete from MongoDB
+    // Delete from MongoDB
     await Resume.deleteOne({ _id: resume._id });
 
-    // 3. Clear the user's resumeUrl field and recalculate profile completion
+    // Clear user's resumeUrl and recalculate completion
     const user = await User.findById(req.user._id);
     user.resumeUrl = null;
     user.profileCompletion = calculateCompletion(user);
     await user.save();
 
-    console.log(`🗑️  Resume deleted: ${resume.s3Key}`);
+    console.log(`🗑️  Resume deleted for user ${req.params.userId}`);
 
     res.json({
       success: true,
       message: 'Resume deleted successfully.',
-      data: {
-        profileCompletion: user.profileCompletion,
-      },
+      data: { profileCompletion: user.profileCompletion },
     });
   } catch (err) {
     console.error('❌ Resume delete error:', err.message);
@@ -130,7 +169,6 @@ exports.deleteResume = async (req, res) => {
 };
 
 // ── GET /api/resume/download/:userId ──────────────────────────────────────
-// Generate a pre-signed S3 URL for secure, time-limited download
 exports.downloadResume = async (req, res) => {
   const resume = await Resume.findOne({ userId: req.params.userId });
 
@@ -142,19 +180,37 @@ exports.downloadResume = async (req, res) => {
   }
 
   try {
-    // Generate a pre-signed URL valid for 15 minutes
-    const downloadUrl = await getPresignedDownloadUrl(resume.s3Key, 900);
+    // Cloudinary files have a direct public URL
+    if (resume.cloudinaryUrl) {
+      return res.json({
+        success: true,
+        data: {
+          downloadUrl: resume.cloudinaryUrl,
+          fileName:    resume.originalName,
+          expiresIn:   'Never (Cloudinary)',
+        },
+      });
+    }
 
-    res.json({
-      success: true,
-      data: {
-        downloadUrl,
-        fileName:  resume.originalName,
-        expiresIn: '15 minutes',
-      },
+    // S3 needs a pre-signed URL
+    if (resume.s3Key && isS3Configured() && s3Service) {
+      const downloadUrl = await s3Service.getPresignedDownloadUrl(resume.s3Key, 900);
+      return res.json({
+        success: true,
+        data: {
+          downloadUrl,
+          fileName:  resume.originalName,
+          expiresIn: '15 minutes',
+        },
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'File storage not configured for download.',
     });
   } catch (err) {
-    console.error('❌ Pre-signed URL error:', err.message);
+    console.error('❌ Download URL error:', err.message);
     res.status(500).json({
       success: false,
       message: 'Failed to generate download link.',
