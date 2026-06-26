@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cp-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cp-frontend
+  template:
+    metadata:
+      labels:
+        app: cp-frontend
+    spec:
+      containers:
+        - name: cp-frontend
+          image: yourdockerhub/careerpilot-frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cp-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: cp-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

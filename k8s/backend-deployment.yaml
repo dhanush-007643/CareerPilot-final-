@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cp-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cp-backend
+  template:
+    metadata:
+      labels:
+        app: cp-backend
+    spec:
+      containers:
+        - name: cp-backend
+          image: yourdockerhub/careerpilot-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+            - name: MONGO_URI
+              value: "mongodb://mongo:27017/careerpilot"
+            # In a real environment, you should use k8s secrets for sensitive data
+            # - name: JWT_SECRET
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: app-secrets
+            #       key: jwt-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cp-backend
+spec:
+  selector:
+    app: cp-backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

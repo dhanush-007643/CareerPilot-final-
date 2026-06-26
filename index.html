@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CareerPilot — The AI-powered recruitment platform connecting freshers with innovative startups. Find jobs, hire talent, build careers." />
+  <title>CareerPilot — Find Jobs. Hire Talent. Build Careers.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#3B82F6" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="#8B5CF6" stroke-width="2" stroke-linejoin="round"/><path d="M2 12l10 5 10-5" stroke="#3B82F6" stroke-width="2" stroke-linejoin="round" opacity="0.6"/></svg>
+        </div>
+        Career<span class="logo-accent">Pilot</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How it Works</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost">Sign In</a>
+        <a href="#" class="btn-primary">Get Started</a>
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-pattern"></div>
+
+    <div class="hero-inner">
+      <div class="hero-badge fade-up">
+        <span class="badge-dot"></span>
+        AI-Powered Recruitment Platform
+      </div>
+
+      <h1 class="hero-headline fade-up">
+        Find Jobs. Hire Talent.<br />
+        <span class="gradient-text">Build Careers.</span>
+      </h1>
+
+      <p class="hero-sub fade-up">
+        The modern recruitment ecosystem connecting ambitious freshers with innovative startups.
+        Smart skill-matching, real-time ATS tracking, and verified certificates.
+      </p>
+
+      <div class="hero-cta fade-up">
+        <a href="#" class="btn-hero-primary">
+          Get Started Free
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#how-it-works" class="btn-hero-secondary">
+          See How It Works
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </a>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="hero-float float-left fade-up">
+        <div class="float-icon float-icon-blue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+        </div>
+        <div>
+          <div class="float-label">New Match</div>
+          <div class="float-value">Frontend Dev · 96%</div>
+        </div>
+      </div>
+
+      <div class="hero-float float-right fade-up">
+        <div class="float-icon float-icon-green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <div class="float-label">Status Update</div>
+          <div class="float-value">Application · Hired 🎉</div>
+        </div>
+      </div>
+
+      <div class="hero-float float-bottom fade-up">
+        <div class="float-icon float-icon-purple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div>
+          <div class="float-label">This Week</div>
+          <div class="float-value">+2,340 Freshers Joined</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ STATS ═══════ -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card fade-up">
+          <div class="stat-icon stat-icon-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><rect x="5" y="3" width="14" height="18" rx="1"/></svg>
+          </div>
+          <div class="stat-num" data-target="2500">0</div>
+          <div class="stat-label">Startups Hiring</div>
+        </div>
+        <div class="stat-card fade-up">
+          <div class="stat-icon stat-icon-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="stat-num" data-target="50000">0</div>
+          <div class="stat-label">Freshers Placed</div>
+        </div>
+        <div class="stat-card fade-up">
+          <div class="stat-icon stat-icon-cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+          </div>
+          <div class="stat-num" data-target="15000">0</div>
+          <div class="stat-label">Jobs Posted</div>
+        </div>
+        <div class="stat-card fade-up">
+          <div class="stat-icon stat-icon-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <div class="stat-num" data-target="96" data-suffix="%">0</div>
+          <div class="stat-label">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ BRANDS ═══════ -->
+  <section class="brands">
+    <p class="brands-label">Trusted by innovative companies worldwide</p>
+    <div class="brands-strip">
+      <div class="brands-track">
+        <span>TechNova</span><span>GlobalWeb</span><span>Quantum AI</span><span>NexusLabs</span>
+        <span>SkyCraft</span><span>DataFlow</span><span>PulseApp</span><span>CoreLab</span>
+        <span>TechNova</span><span>GlobalWeb</span><span>Quantum AI</span><span>NexusLabs</span>
+        <span>SkyCraft</span><span>DataFlow</span><span>PulseApp</span><span>CoreLab</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-chip">Platform Features</div>
+        <h2 class="section-title">Everything to <span class="gradient-text">succeed</span></h2>
+        <p class="section-sub">A complete recruitment ecosystem built for the modern workforce.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Card 1 — Large -->
+        <div class="feature-card feature-card-large fade-up">
+          <div class="feature-icon-wrap feature-blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </div>
+          <h3>AI-Powered Skill Matching</h3>
+          <p>Every job is ranked by your skill overlap percentage — so you always see the best opportunities first. Our algorithm analyses required skills vs. your profile in real time.</p>
+          <span class="feature-badge">✦ Smart Engine</span>
+          <div class="analytics-bars">
+            <div class="bar-group"><div class="bar" style="height:40%"></div><span>M</span></div>
+            <div class="bar-group"><div class="bar bar-accent" style="height:80%"></div><span>T</span></div>
+            <div class="bar-group"><div class="bar" style="height:55%"></div><span>W</span></div>
+            <div class="bar-group"><div class="bar bar-accent" style="height:90%"></div><span>T</span></div>
+            <div class="bar-group"><div class="bar" style="height:65%"></div><span>F</span></div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card fade-up">
+          <div class="feature-icon-wrap feature-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h3>Visual ATS Pipeline</h3>
+          <p>Drag-and-drop Kanban board for startups. Track candidates through Applied → Shortlisted → Interviewing → Hired stages.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card fade-up">
+          <div class="feature-icon-wrap feature-cyan">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <h3>Verified Certificates</h3>
+          <p>Pass timed assessments and earn downloadable PDF certificates with unique verification codes to prove your skills.</p>
+        </div>
+
+        <!-- Card 4 — Wide -->
+        <div class="feature-card feature-card-wide fade-up">
+          <div class="feature-icon-wrap feature-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          </div>
+          <h3>Real-Time Notifications</h3>
+          <p>Socket.io powered live alerts. Get instant updates when companies change your application status, schedule interviews, or send invitations — no page refresh needed.</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="feature-card fade-up">
+          <div class="feature-icon-wrap feature-yellow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Candidate Intelligence</h3>
+          <p>Full applicant profiles with skills, education, match %, and assessment scores — before a single interview.</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="feature-card fade-up">
+          <div class="feature-icon-wrap feature-orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><rect x="5" y="3" width="14" height="18" rx="1"/></svg>
+          </div>
+          <h3>Company Discovery</h3>
+          <p>Follow innovative startups, get invited to private listings, and see culture insights before you apply.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-chip">Simple Process</div>
+        <h2 class="section-title">Get hired in <span class="gradient-text">3 steps</span></h2>
+      </div>
+
+      <div class="steps-container">
+        <div class="step fade-up">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>Build Your Profile</h3>
+            <p>Add skills, education, projects, and resume. Match % is calculated automatically for every job.</p>
+          </div>
+        </div>
+
+        <div class="step-connector fade-up">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="step fade-up">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-icon-wrap step-icon-purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <h3>Discover & Apply</h3>
+            <p>Browse smart recommendations sorted by your match score. Apply to any job in one click.</p>
+          </div>
+        </div>
+
+        <div class="step-connector fade-up">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="step fade-up">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-icon-wrap step-icon-green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <h3>Get Hired</h3>
+            <p>Track application stages in real-time through our visual ATS board and land your dream role.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ TESTIMONIALS ═══════ -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-chip">Success Stories</div>
+        <h2 class="section-title">Loved by <span class="gradient-text">our community</span></h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testi-card fade-up">
+          <div class="testi-stars">★★★★★</div>
+          <p>"Applied to 5 jobs through CareerPilot, got 3 interview calls. The match percentage was spot-on. Got hired within 2 weeks!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg,#3B82F6,#8B5CF6)">A</div>
+            <div><div class="testi-name">Alex Mercer</div><div class="testi-role">Frontend Dev @ TechNova</div></div>
+          </div>
+        </div>
+
+        <div class="testi-card testi-card-featured fade-up">
+          <div class="testi-stars">★★★★★</div>
+          <p>"CareerPilot cut our hiring time by 60%. The ATS Kanban board is incredible — we can see every candidate's journey at a glance."</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg,#8B5CF6,#EC4899)">S</div>
+            <div><div class="testi-name">Sarah Chen</div><div class="testi-role">CTO @ QuantumAI</div></div>
+          </div>
+        </div>
+
+        <div class="testi-card fade-up">
+          <div class="testi-stars">★★★★★</div>
+          <p>"The assessment certificates gave me an edge over other candidates. Companies could see my verified scores before the interview."</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg,#10B981,#3B82F6)">R</div>
+            <div><div class="testi-name">Raj Patel</div><div class="testi-role">Full Stack @ GlobalWeb</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ PRICING ═══════ -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-chip">Plans & Pricing</div>
+        <h2 class="section-title">Simple, <span class="gradient-text">transparent pricing</span></h2>
+        <p class="section-sub">Start free. Upgrade when you're ready.</p>
+      </div>
+
+      <div class="billing-toggle fade-up">
+        <span class="toggle-label">Monthly</span>
+        <div class="toggle-switch" id="billingToggle"><div class="toggle-thumb"></div></div>
+        <span class="toggle-label">Yearly <span class="save-badge">Save 20%</span></span>
+      </div>
+
+      <div class="pricing-grid fade-up">
+        <!-- Free -->
+        <div class="price-card">
+          <div class="plan-name">Starter</div>
+          <div class="plan-desc">Perfect for freshers exploring opportunities.</div>
+          <div class="plan-price">
+            <span class="price-currency">$</span>
+            <span class="price-amount" data-monthly="0" data-yearly="0">0</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <ul class="plan-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Browse all jobs</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> 5 applications / month</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Basic profile</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> 1 assessment</li>
+            <li class="feature-disabled"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Priority support</li>
+          </ul>
+          <a href="#" class="btn-plan-outline">Get Started Free</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="price-card price-card-featured">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-desc">For serious job seekers and growing startups.</div>
+          <div class="plan-price">
+            <span class="price-currency">$</span>
+            <span class="price-amount" data-monthly="19" data-yearly="15">19</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <ul class="plan-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Unlimited applications</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Match insights</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Unlimited assessments</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> PDF certificates</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Priority support</li>
+          </ul>
+          <a href="#" class="btn-plan-primary">Start Pro Trial</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="price-card">
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-desc">For growing teams that need full recruitment power.</div>
+          <div class="plan-price">
+            <span class="price-currency">$</span>
+            <span class="price-amount" data-monthly="49" data-yearly="39">49</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <ul class="plan-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Everything in Pro</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> ATS pipeline</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Team collaboration</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> API access</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Dedicated account manager</li>
+          </ul>
+          <a href="#" class="btn-plan-outline">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="cta-band">
+    <div class="orb orb-cta-1"></div>
+    <div class="orb orb-cta-2"></div>
+    <div class="cta-inner">
+      <h2>Ready to <span class="gradient-text">launch your career?</span></h2>
+      <p>Join 50,000+ freshers and 2,500+ startups building the future together.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-hero-primary">Get Started — It's Free
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn-hero-secondary">Watch Demo
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">
+            <div class="logo-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#3B82F6" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="#8B5CF6" stroke-width="2" stroke-linejoin="round"/></svg>
+            </div>
+            Career<span class="logo-accent">Pilot</span>
+          </a>
+          <p>Connecting ambitious freshers with innovative startups. AI-powered matching, real-time tracking.</p>
+          <div class="social-links">
+            <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-btn" aria-label="GitHub">⌘</a>
+            <a href="#" class="social-btn" aria-label="Discord">◇</a>
+          </div>
+        </div>
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#">Integrations</a></li>
+              <li><a href="#">Changelog</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>For Freshers</h4>
+            <ul>
+              <li><a href="#">Browse Jobs</a></li>
+              <li><a href="#">Assessments</a></li>
+              <li><a href="#">Certificates</a></li>
+              <li><a href="#">Career Tips</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>For Startups</h4>
+            <ul>
+              <li><a href="#">Post a Job</a></li>
+              <li><a href="#">ATS Pipeline</a></li>
+              <li><a href="#">Talent Search</a></li>
+              <li><a href="#">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 CareerPilot. All rights reserved.</span>
+        <span class="footer-made">Connecting Freshers with Innovative Startups.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
