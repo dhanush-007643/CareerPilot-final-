@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: cp-backend
-          image: yourdockerhub/careerpilot-backend:latest
+          image: dhaanush19/careerpilot-backend:latest
           ports:
             - containerPort: 5000
           env:

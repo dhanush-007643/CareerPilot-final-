@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: cp-frontend
-          image: yourdockerhub/careerpilot-frontend:latest
+          image: dhaanush19/careerpilot-frontend:latest
           ports:
             - containerPort: 80
 ---
