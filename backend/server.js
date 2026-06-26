@@ -17,10 +17,15 @@ try { rateLimit = require('express-rate-limit'); } catch (e) { /* install separa
 const app    = express();
 const server = http.createServer(app);
 
-// ── Socket.io ─────────────────────────────────────────────────────────────────
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+if (process.env.CLIENT_URL) {
+  const urls = process.env.CLIENT_URL.split(',').map(url => url.trim().replace(/\/$/, ''));
+  allowedOrigins.push(...urls);
+}
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -59,7 +64,7 @@ connectDB();
 // ── Middleware ────────────────────────────────────────────────────────────────
 if (helmet) app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
