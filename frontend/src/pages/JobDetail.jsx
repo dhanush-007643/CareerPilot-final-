@@ -32,8 +32,10 @@ export default function JobDetail() {
         ]);
         if (jobRes.status === 'fulfilled' && jobRes.value.data.success)
           setJob(jobRes.value.data.data);
-        if (resumeRes.status === 'fulfilled' && resumeRes.value?.data?.s3Url)
-          setResumeUrl(resumeRes.value.data.s3Url);
+        if (resumeRes.status === 'fulfilled' && resumeRes.value?.data) {
+          const r = resumeRes.value.data;
+          setResumeUrl(r.cloudinaryUrl || r.s3Url || null);
+        }
       } catch { toast.error('Failed to load job'); }
       finally { setLoading(false); }
     };
